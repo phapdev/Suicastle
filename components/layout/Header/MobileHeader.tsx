@@ -3,7 +3,6 @@ import { ContentCopy } from "@mui/icons-material";
 import { shortenAddress } from "@/lib/utils";
 import { useContext, useEffect, useState } from "react";
 import { Button, Tooltip } from "@mui/material";
-// import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { BiSolidCoinStack } from "react-icons/bi";
 import { RiKey2Fill } from "react-icons/ri";
 import { FaRankingStar } from "react-icons/fa6";
