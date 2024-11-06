@@ -42,7 +42,6 @@ const MobileHeader = () => {
 
   return (
     <header className="flex w-full flex-row items-start justify-between px-4 py-4">
-      <span className="text-3xl text-white">Profile</span>
 
       <div className="flex flex-grow flex-col justify-start space-y-4">
         <div

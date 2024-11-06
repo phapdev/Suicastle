@@ -39,7 +39,7 @@ const HomeMobile = () => {
   const [selectedMap, setSelectedMap] = useState(1);
   const [expiryTimestamp, setExpiryTimestamp] = useState(new Date());
   const [isClaiming, setIsClaiming] = useState(false);
-  const { setAlert } = useAlert();
+  // const { setAlert } = useAlert();
   const router = useRouter();
   const { isConnected, logout, redirectToAuthUrl, emailAddress, address } =
     useCustomWallet();
