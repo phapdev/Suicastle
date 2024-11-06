@@ -15,10 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import clientConfig from "@/config/clientConfig";
 import "@mysten/dapp-kit/dist/index.css";
 import CustomWalletProvider from "@/contexts/CustomWallet";
-import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
-import { AlertProvider } from "@/contexts/AlertProvider";
-import { UnityGameProvider } from "@/contexts/UnityGameProvider";
 
 export interface StorageAdapter {
   setItem(key: string, value: string): Promise<void>;
@@ -64,15 +61,10 @@ export const ProvidersAndLayout = ({ children }: ChildrenProps) => {
           <EnokiFlowProvider apiKey={clientConfig.ENOKI_API_KEY}>
             <AuthenticationProvider>
               <CustomWalletProvider>
-                <AlertProvider>
-                  <UnityGameProvider>
-                    <main id="root">
-                      {children}
-                      <Toaster duration={2000} />
-                      <Analytics />
-                    </main>
-                  </UnityGameProvider>
-                </AlertProvider>
+                <main id="root">
+                  {children}
+                  <Analytics />
+                </main>
               </CustomWalletProvider>
             </AuthenticationProvider>
           </EnokiFlowProvider>
