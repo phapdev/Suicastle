@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useCustomWallet } from "@/contexts/CustomWallet";
 import { AuthenticationContext } from "@/contexts/Authentication";
 import PlayerInfoModal from "./PlayerInforModal";
+import LeaderboardModal from "./LeaderboardModal";
 
 const MobileHeader = () => {
   const [openToolTip, setOpenToolTip] = useState(false);
@@ -47,6 +48,10 @@ const MobileHeader = () => {
         handleClose={handlePlayerInfoClose}
         playerInfo={undefined}
       />
+      {/* <LeaderboardModal
+        open={openLeaderboardModal}
+        handleClose={handleLeaderboardClose}
+      /> */}
       <div className="flex flex-grow flex-col justify-start space-y-4">
         <div
           className="cursor-pointer text-3xl text-white"

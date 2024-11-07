@@ -33,7 +33,7 @@ const PlayerInfoModal: React.FC<PlayerInfoModalProps> = ({
             <p className="text-xl font-semibold leading-tight">
               {playerInfo?.name}
             </p>
-            <p>{address ? address.slice(0, 6) + "..." + address.slice(-5) : ""}</p>
+            <p>{address && address.slice(0, 6) + "..." + address.slice(-5)}</p>
           </span>
         </div>
         <button
