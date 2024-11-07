@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useCustomWallet } from "@/contexts/CustomWallet";
 import { AuthenticationContext } from "@/contexts/Authentication";
 import PlayerInfoModal from "./PlayerInforModal";
-import LeaderboardModal from "./LeaderboardModal";
+// import LeaderboardModal from "./LeaderboardModal";
 
 const MobileHeader = () => {
   const [openToolTip, setOpenToolTip] = useState(false);
