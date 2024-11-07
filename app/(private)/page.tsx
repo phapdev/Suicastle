@@ -1,12 +1,7 @@
 "use client";
-
 import Link from "next/link";
-import { useEffect, useState, useContext } from "react";
+import { useState } from "react";
 
-// import useCredit from "../../hooks/useCredit";
-// import Timer from "../../components/timer/Timer";
-// import AuthContext from "../../contexts/AuthProvider";
-// import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
 import { useAlert } from "@/contexts/AlertProvider";
 import Timer from "@/components/timer/Timer";
@@ -33,13 +28,11 @@ const maps = [
 ];
 
 const HomeMobile = () => {
-  // const { claimCredit } = useCredit();
-
   const [currentMap, setCurrentMap] = useState(1);
   const [selectedMap, setSelectedMap] = useState(1);
   const [expiryTimestamp, setExpiryTimestamp] = useState(new Date());
   const [isClaiming, setIsClaiming] = useState(false);
-  // const { setAlert } = useAlert();
+  const { setAlert } = useAlert();
   const router = useRouter();
   const { isConnected, logout, redirectToAuthUrl, emailAddress, address } =
     useCustomWallet();

@@ -6,7 +6,7 @@ import {
 } from "@aptos-labs/ts-sdk";
 import React, { useState } from "react";
 import { MODULE_ADDRESS } from "../utils/Var";
-import { LeaderBoardInfo, PlayerInfo } from "../types/type";
+import { LeaderBoardInfo, PlayerInfo } from "../types/types";
 
 const useGetPlayer = () => {
   const [loadingFetch, setLoadingFetch] = useState(false);
