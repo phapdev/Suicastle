@@ -1,3 +1,5 @@
+import { PlayerInfo } from "./types";
+
 export type UserRole = "admin" | "moderator" | "member" | "anonymous";
 
 export interface UserProps {
@@ -14,4 +16,6 @@ export interface AuthenticationContextProps {
   setIsLoading: (isLoading: boolean) => void;
   handleLoginAs: (user: UserProps) => void;
   handleLogout: () => void;
+  playerInfor: PlayerInfo;
+  handleGetPlayerInfor: (address: string) => boolean;
 }

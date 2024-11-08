@@ -6,6 +6,8 @@ import { createContext } from "react";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { isFollowingUserPropsSchema } from "@/helpers/isFollowingUserPropsSchema";
 import { useQuery } from "@tanstack/react-query";
+import { PlayerInfo } from "@/types/types";
+import { usePlayer } from "@/hooks/usePlayer";
 
 export const anonymousUser: UserProps = {
   firstName: "",
@@ -13,6 +15,27 @@ export const anonymousUser: UserProps = {
   role: "anonymous",
   email: "",
   picture: "",
+};
+
+const player_infor: PlayerInfo = {
+  address_id: "",
+  current_round: 0,
+  game_finished: false,
+  hero_owned: "",
+  name: "",
+  last_claim_time: "",
+  round1_finish_time: "",
+  round1_play_time: "",
+  round2_finish_time: "",
+  round2_play_time: "",
+  round3_finish_time: "",
+  round3_play_time: "",
+  credits: "0",
+  point: "0",
+  gold: "0",
+  id: {
+    id: ""
+  }
 };
 
 export const useAuthentication = () => {
@@ -31,11 +54,15 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
   setIsLoading: () => {},
   handleLoginAs: () => {},
   handleLogout: () => {},
+  playerInfor: player_infor,
+  handleGetPlayerInfor: () => false,
 });
 
 export const AuthenticationProvider = ({ children }: ChildrenProps) => {
   const [user, setUser] = useState<UserProps>(anonymousUser);
+  const [playerInfor, setPlayerInfor] = useState<PlayerInfo>(player_infor);
   const [isLoading, setIsLoading] = useState(false);
+  const { getPlayerInfor } = usePlayer();
 
   const pathname = usePathname();
   const router = useRouter();
@@ -46,8 +73,6 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
       sessionStorage.setItem("user", JSON.stringify(user));
       sessionStorage.setItem("userRole", user.role);
       if (pathname === "/" || pathname === "/auth") {
-        router.push("/");
-      } else {
         router.push("/");
       }
     },
@@ -62,7 +87,6 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
         sessionStorage.removeItem("user");
         sessionStorage.removeItem("userRole");
         setUser(anonymousUser);
-        router.push("/");
       } else {
         handleLoginAs(parsedUser);
       }
@@ -78,9 +102,31 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
     router.push("/");
   };
 
+  const handleGetPlayerInfor = (address: string) => {
+    getPlayerInfor(address)
+      .then((res) => {
+        console.log(res);
+        if (!res) return;
+
+        if (res.content?.dataType === "moveObject")
+          setPlayerInfor(res.content.fields as PlayerInfo);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return false;
+  };
   return (
     <AuthenticationContext.Provider
-      value={{ user, isLoading, setIsLoading, handleLoginAs, handleLogout }}
+      value={{
+        user,
+        isLoading,
+        setIsLoading,
+        handleLoginAs,
+        handleLogout,
+        playerInfor,
+        handleGetPlayerInfor,
+      }}
     >
       {children}
     </AuthenticationContext.Provider>

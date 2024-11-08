@@ -4,20 +4,12 @@ import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 
 export const useContract = () => {
-  const { sponsorAndExecuteTransactionBlock, address } = useCustomWallet();
+  const { sponsorAndExecuteTransactionBlock, address, executeTransactionBlockWithoutSponsorship } = useCustomWallet();
 
   const callContract = async (
-    args: TransactionArgument[],
-    functionName: string
+    txb: Transaction
   ): Promise<SuiTransactionBlockResponse> => {
     const recipient = address!;
-
-    const txb = new Transaction();
-
-    txb.moveCall({
-      arguments: args,
-      target: `${clientConfig.PACKAGE_ID}::gamev1::${functionName}`,
-    });
 
     return await sponsorAndExecuteTransactionBlock({
       tx: txb,

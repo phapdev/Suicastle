@@ -11,19 +11,25 @@ import { useRouter } from "next/navigation";
 import { useCustomWallet } from "@/contexts/CustomWallet";
 import { AuthenticationContext } from "@/contexts/Authentication";
 import PlayerInfoModal from "./PlayerInforModal";
-// import LeaderboardModal from "./LeaderboardModal";
+import LeaderboardModal from "./LeaderboardModal";
 
 const MobileHeader = () => {
   const [openToolTip, setOpenToolTip] = useState(false);
   const [openPlayerModal, setPlayerModal] = useState(false);
   const [openLeaderboardModal, setLeaderboardModal] = useState(false);
   const router = useRouter();
-  const { user } = useContext(AuthenticationContext);
+  const { user, handleGetPlayerInfor, playerInfor } = useContext(
+    AuthenticationContext
+  );
   const { isConnected, address } = useCustomWallet();
 
   useEffect(() => {
     if (!isConnected) router.push("/auth/login");
-  }, [isConnected]);
+    if (!address) return;
+    const result = handleGetPlayerInfor(address);
+
+    if (!result) router.push("/auth/create-account");
+  }, [isConnected, address]);
 
   useEffect(() => {
     if (openToolTip) {
@@ -46,12 +52,13 @@ const MobileHeader = () => {
       <PlayerInfoModal
         open={openPlayerModal}
         handleClose={handlePlayerInfoClose}
-        playerInfo={undefined}
+        playerInfo={playerInfor}
+        userInfor={user}
       />
-      {/* <LeaderboardModal
+      <LeaderboardModal
         open={openLeaderboardModal}
         handleClose={handleLeaderboardClose}
-      /> */}
+      />
       <div className="flex flex-grow flex-col justify-start space-y-4">
         <div
           className="cursor-pointer text-3xl text-white"
@@ -62,11 +69,11 @@ const MobileHeader = () => {
           <IoIosArrowBack />
         </div>
         <div className="flex w-fit items-center space-x-2 rounded-full bg-[#DDDDDD] px-4 py-1">
-          <RiKey2Fill /> <p>0</p>
+          <RiKey2Fill /> <p>{playerInfor.credits}</p>
         </div>
-        {/* <div className="flex w-fit items-center space-x-2 rounded-full bg-[#DDDDDD] px-4 py-1">
-          <BiSolidCoinStack /> <p>1M</p>
-        </div> */}
+        <div className="flex w-fit items-center space-x-2 rounded-full bg-[#DDDDDD] px-4 py-1">
+          <BiSolidCoinStack /> <p>{playerInfor.gold}</p>
+        </div>
       </div>
       <div className="flex flex-1 flex-grow-[4] items-start justify-center">
         <div className="font-vt323 flex items-center rounded-full bg-[#DDDDDD]/20 px-5 py-1 text-white">
@@ -101,7 +108,7 @@ const MobileHeader = () => {
             setPlayerModal(true);
           }}
         >
-          <img src="/gf.jpg" alt="" className="rounded-full" />
+          <img src={user.picture} alt="" className="rounded-full" />
         </button>
         {/* <button>
           <HiUserGroup />
