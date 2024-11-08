@@ -3,24 +3,25 @@ import { useCustomWallet } from "@/contexts/CustomWallet";
 import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
 import { useContract } from "./useContract";
+import { SUI_CLOCK_OBJECT_ID } from "@mysten/sui/utils";
 
 export const useCredit = () => {
   const { callContract } = useContract();
 
   const claimCredit = async (
-    address: string
+    id_account: string
   ): Promise<SuiTransactionBlockResponse> => {
     const txb = new Transaction();
 
-    const args = [txb.pure.address(address)];
     const functionName = "claim_credit";
 
-    return await callContract(args, functionName);
+    txb.moveCall({
+      arguments: [txb.object(id_account), txb.object(SUI_CLOCK_OBJECT_ID)],
+      target: `${clientConfig.PACKAGE_ID}::sui_castle::${functionName}`,
+    });
+
+    return await callContract(txb);
   };
-
-  // const fetchCredit = async (): Promise<SuiTransactionBlockResponse> => {
-
-  // };
 
   return { claimCredit };
 };

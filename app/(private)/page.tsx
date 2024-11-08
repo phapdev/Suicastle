@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { FaCaretRight, FaCaretLeft } from "react-icons/fa";
 import { useAlert } from "@/contexts/AlertProvider";
 import Timer from "@/components/timer/Timer";
 import { useCustomWallet } from "@/contexts/CustomWallet";
 import { useRouter } from "next/navigation";
+import { useCredit } from "@/hooks/useCredit";
+import { AuthenticationContext } from "@/contexts/Authentication";
 
 const maps = [
   {
@@ -34,42 +36,51 @@ const HomeMobile = () => {
   const [isClaiming, setIsClaiming] = useState(false);
   const { setAlert } = useAlert();
   const router = useRouter();
-  const { isConnected, logout, redirectToAuthUrl, emailAddress, address } =
-    useCustomWallet();
+  const { isConnected } = useCustomWallet();
+  const { user, handleGetPlayerInfor, playerInfor } = useContext(
+    AuthenticationContext
+  );
+
+  const { claimCredit } = useCredit();
 
   const handleClaimCredit = async () => {
-    // if (!auth?.keylessWalletAddress) return;
-    // setIsClaiming(true);
-    // claimCredit().then(async () => {
-    //   await auth?.fetchCreditInfor(auth.keylessWalletAddress);
-    //   await auth?.fetchPlayerInfo(auth.keylessWalletAddress);
-    //   setIsClaiming(false);
-    //   setAlert("+3 Credit for play game!", "success");
-    // });
+    if (!isConnected) return;
+    setIsClaiming(true);
+
+    try {
+      await claimCredit(playerInfor.id.id);
+      setIsClaiming(false);
+    } catch (error) {
+      setAlert("Fail to claim credits, please try again", "error");
+      return;
+    } finally {
+      setAlert("+3 Credit for play game!", "success");
+      await handleGetPlayerInfor(playerInfor.address_id);
+    }
   };
 
-  // useEffect(() => {
-  //   if (!auth) return;
+  useEffect(() => {
+    if (!isConnected) return;
 
-  //   const test = new Date(
-  //     Number(auth.player.last_claim_time) / 1000 + 86400000
-  //   );
+    const test = new Date(
+      Number(playerInfor.last_claim_time) + 86400000
+    );
 
-  //   setExpiryTimestamp(test);
+    setExpiryTimestamp(test);
 
-  //   const crtMap =
-  //     maps.find((map) => {
-  //       return (
-  //         map.id ===
-  //         (auth?.player.game_finished || auth?.player.current_round == 0
-  //           ? auth?.player.current_round + 1
-  //           : auth?.player.current_round)
-  //       );
-  //     })?.id || 1;
+    const crtMap =
+      maps.find((map) => {
+        return (
+          map.id ===
+          (playerInfor.game_finished || playerInfor.current_round == 0
+            ? playerInfor.current_round + 1
+            : playerInfor.current_round)
+        );
+      })?.id || 1;
 
-  //   setCurrentMap(crtMap);
-  //   setSelectedMap(crtMap);
-  // }, [auth, auth?.player]);
+    setCurrentMap(crtMap);
+    setSelectedMap(crtMap);
+  }, [isConnected, playerInfor]);
 
   const handleChangeLevel = (isNext: boolean) => {
     if (isNext) {
@@ -94,9 +105,9 @@ const HomeMobile = () => {
   return (
     <div
       id="home"
-      className="mx-auto flex h-full w-full max-w-screen-sm flex-col items-center px-8"
+      className="mx-auto flex w-full max-w-screen-sm flex-col items-center px-8"
     >
-      <div className="flex w-full flex-grow flex-col justify-center py-16 text-white">
+      <div className="flex w-full flex-grow flex-col justify-center text-white">
         {/* game */}
         <div className="relative z-10 flex w-full flex-col justify-between">
           <div className="flex w-full justify-center">

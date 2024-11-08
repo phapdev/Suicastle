@@ -17,6 +17,9 @@ export interface User {
 }
 
 export type PlayerInfo = {
+  id: {
+    id: string;
+  };
   address_id: string;
   current_round: number;
   game_finished: boolean;
@@ -29,6 +32,9 @@ export type PlayerInfo = {
   round2_play_time: string;
   round3_finish_time: string;
   round3_play_time: string;
+  credits: string;
+  point: string;
+  gold: string;
 };
 
 export type LeaderBoardInfo = {

@@ -3,17 +3,21 @@ import { Modal } from "@mui/material";
 import { PlayerInfo } from "@/types/types";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useCustomWallet } from "@/contexts/CustomWallet";
+import { UserProps } from "@/types/Authentication";
+import { userInfo } from "os";
 
 interface PlayerInfoModalProps {
   open: boolean;
   handleClose: () => void;
   playerInfo: PlayerInfo | undefined;
+  userInfor: UserProps;
 }
 
 const PlayerInfoModal: React.FC<PlayerInfoModalProps> = ({
   open,
   handleClose,
   playerInfo,
+  userInfor,
 }) => {
   const { isConnected, logout, redirectToAuthUrl, emailAddress, address } =
     useCustomWallet();
@@ -27,7 +31,7 @@ const PlayerInfoModal: React.FC<PlayerInfoModalProps> = ({
       <div className="flex w-3/4 flex-col rounded-lg bg-[#222222] p-6 text-white">
         <div className="flex flex-row items-center space-x-4 border-b pb-5">
           <div className="size-10 rounded-full border-2">
-            <img src="/gf.jpg" alt="" className="rounded-full" />
+            <img src={userInfor.picture} alt="" className="rounded-full" />
           </div>
           <span>
             <p className="text-xl font-semibold leading-tight">

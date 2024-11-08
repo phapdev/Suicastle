@@ -16,6 +16,7 @@ import clientConfig from "@/config/clientConfig";
 import "@mysten/dapp-kit/dist/index.css";
 import CustomWalletProvider from "@/contexts/CustomWallet";
 import { Analytics } from "@vercel/analytics/react";
+import { AlertProvider } from "@/contexts/AlertProvider";
 
 export interface StorageAdapter {
   setItem(key: string, value: string): Promise<void>;
@@ -61,10 +62,12 @@ export const ProvidersAndLayout = ({ children }: ChildrenProps) => {
           <EnokiFlowProvider apiKey={clientConfig.ENOKI_API_KEY}>
             <AuthenticationProvider>
               <CustomWalletProvider>
-                <main id="root">
-                  {children}
-                  <Analytics />
-                </main>
+                <AlertProvider>
+                  <main id="root">
+                    {children}
+                    <Analytics />
+                  </main>
+                </AlertProvider>
               </CustomWalletProvider>
             </AuthenticationProvider>
           </EnokiFlowProvider>
