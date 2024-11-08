@@ -34,8 +34,8 @@ const player_infor: PlayerInfo = {
   point: "0",
   gold: "0",
   id: {
-    id: ""
-  }
+    id: "",
+  },
 };
 
 export const useAuthentication = () => {
@@ -105,16 +105,17 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
   const handleGetPlayerInfor = (address: string) => {
     getPlayerInfor(address)
       .then((res) => {
-        console.log(res);
-        if (!res) return;
+        if (!res) return false;
 
         if (res.content?.dataType === "moveObject")
           setPlayerInfor(res.content.fields as PlayerInfo);
       })
       .catch((error) => {
         console.log(error);
+        return false;
       });
-    return false;
+
+    return true;
   };
   return (
     <AuthenticationContext.Provider
