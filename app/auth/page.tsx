@@ -9,5 +9,12 @@ export default function Page() {
 
   useEffect(() => {}, [handled]);
 
-  return <Loading />;
+  return (
+    <>
+      <div className="flex w-full flex-col items-center space-y-96">
+        <img src="/banner.png" className="w-2/3" />
+        <Loading />
+      </div>
+    </>
+  );
 }

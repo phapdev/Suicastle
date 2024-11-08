@@ -1,10 +1,14 @@
 import clientConfig from "@/config/clientConfig";
 import { useCustomWallet } from "@/contexts/CustomWallet";
+import { useSuiClient } from "@mysten/dapp-kit";
 import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
+import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
+import { fromHEX } from "@mysten/sui/utils";
 
 export const useContract = () => {
-  const { sponsorAndExecuteTransactionBlock, address, executeTransactionBlockWithoutSponsorship } = useCustomWallet();
+  const { sponsorAndExecuteTransactionBlock, address } = useCustomWallet();
+  const suiClient = useSuiClient();
 
   const callContract = async (
     txb: Transaction
@@ -31,5 +35,17 @@ export const useContract = () => {
       });
   };
 
-  return { callContract };
+  const callAdminContract = async (txb: Transaction) => {
+    const secretKey =
+      "suiprivkey1qrh3ckx098gnyfxyrjhv0zx72mmqww84e7wgtea32dtf4c8psmvakn656g6";
+    const keypair = Ed25519Keypair.fromSecretKey(fromHEX(secretKey));
+
+    const result = await suiClient.signAndExecuteTransaction({
+      signer: keypair,
+      transaction: txb,
+    });
+    return await suiClient.waitForTransaction({ digest: result.digest });
+  };
+
+  return { callContract, callAdminContract };
 };

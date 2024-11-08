@@ -17,6 +17,7 @@ import "@mysten/dapp-kit/dist/index.css";
 import CustomWalletProvider from "@/contexts/CustomWallet";
 import { Analytics } from "@vercel/analytics/react";
 import { AlertProvider } from "@/contexts/AlertProvider";
+import { UnityGameProvider } from "@/contexts/UnityGameProvider";
 
 export interface StorageAdapter {
   setItem(key: string, value: string): Promise<void>;
@@ -63,10 +64,12 @@ export const ProvidersAndLayout = ({ children }: ChildrenProps) => {
             <AuthenticationProvider>
               <CustomWalletProvider>
                 <AlertProvider>
-                  <main id="root">
-                    {children}
-                    <Analytics />
-                  </main>
+                  <UnityGameProvider>
+                    <main id="root">
+                      {children}
+                      <Analytics />
+                    </main>
+                  </UnityGameProvider>
                 </AlertProvider>
               </CustomWalletProvider>
             </AuthenticationProvider>

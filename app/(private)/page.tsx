@@ -62,9 +62,7 @@ const HomeMobile = () => {
   useEffect(() => {
     if (!isConnected) return;
 
-    const test = new Date(
-      Number(playerInfor.last_claim_time) + 86400000
-    );
+    const test = new Date(Number(playerInfor.last_claim_time) + 86400000);
 
     setExpiryTimestamp(test);
 
@@ -92,7 +90,7 @@ const HomeMobile = () => {
 
   const handlePlayGame = () => {
     if (!isConnected) return;
-    if (1) {
+    if (Number(playerInfor.credits) !== 0) {
       router.push("/playGame");
     } else {
       setAlert(
@@ -142,7 +140,7 @@ const HomeMobile = () => {
           <div className="mt-10 flex w-full justify-center">
             <button
               disabled={currentMap !== selectedMap}
-              className="disabled:opacity-15 border-2 border-white px-10 py-2 text-2xl hover:bg-white"
+              className="disabled:opacity-15 border-2 border-white px-10 py-2 text-2xl hover:bg-white rounded"
               onClick={handlePlayGame}
             >
               Play

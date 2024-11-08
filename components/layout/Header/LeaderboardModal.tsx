@@ -28,7 +28,8 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
       //     setLeaderboard(data);
       //   }
     };
-    getLeaderboard();
+
+    if (open) getLeaderboard();
   }, [open]);
 
   return (
