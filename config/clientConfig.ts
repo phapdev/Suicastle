@@ -10,20 +10,21 @@ import { z } from "zod";
 
 const clientConfigSchema = z.object({
   SUI_NETWORK: z.string(),
-  SUI_NETWORK_NAME: z.enum(["mainnet", "testnet"]),
+  SUI_NETWORK_NAME: z.enum(["mainnet", "testnet", "devnet"]),
   ENOKI_API_KEY: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   PACKAGE_ID: z.string(),
   GAMESTATE_ID: z.string(),
 });
 
-console.log(process.env.NEXT_PUBLIC_SUI_NETWORK)
+console.log(process.env.NEXT_PUBLIC_SUI_NETWORK);
 
 const clientConfig = clientConfigSchema.parse({
   SUI_NETWORK: process.env.NEXT_PUBLIC_SUI_NETWORK!,
   SUI_NETWORK_NAME: process.env.NEXT_PUBLIC_SUI_NETWORK_NAME as
     | "mainnet"
-    | "testnet",
+    | "testnet"
+    | "devnet",
   ENOKI_API_KEY: process.env.NEXT_PUBLIC_ENOKI_API_KEY!,
   GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
   PACKAGE_ID: process.env.NEXT_PUBLIC_PACKAGE_ID!,

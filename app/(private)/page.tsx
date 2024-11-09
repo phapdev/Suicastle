@@ -9,6 +9,7 @@ import { useCustomWallet } from "@/contexts/CustomWallet";
 import { useRouter } from "next/navigation";
 import { useCredit } from "@/hooks/useCredit";
 import { AuthenticationContext } from "@/contexts/Authentication";
+import { useGame } from "@/hooks/useGame";
 
 const maps = [
   {
@@ -37,11 +38,17 @@ const HomeMobile = () => {
   const { setAlert } = useAlert();
   const router = useRouter();
   const { isConnected } = useCustomWallet();
-  const { user, handleGetPlayerInfor, playerInfor } = useContext(
+  const { handleGetPlayerInfor, playerInfor } = useContext(
     AuthenticationContext
   );
-
+  const { endGame } = useGame();
   const { claimCredit } = useCredit();
+
+  useEffect(() => {
+    endGame(1, playerInfor.id.id, 100).then((res) => {
+      console.log(res);
+    });
+  }, []);
 
   const handleClaimCredit = async () => {
     if (!isConnected) return;

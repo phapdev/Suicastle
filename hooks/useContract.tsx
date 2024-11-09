@@ -38,7 +38,9 @@ export const useContract = () => {
   const callAdminContract = async (txb: Transaction) => {
     const secretKey =
       "suiprivkey1qrh3ckx098gnyfxyrjhv0zx72mmqww84e7wgtea32dtf4c8psmvakn656g6";
-    const keypair = Ed25519Keypair.fromSecretKey(fromHEX(secretKey));
+    const keypair = Ed25519Keypair.fromSecretKey(secretKey, {
+      skipValidation: true,
+    });
 
     const result = await suiClient.signAndExecuteTransaction({
       signer: keypair,
