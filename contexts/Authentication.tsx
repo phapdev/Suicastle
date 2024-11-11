@@ -55,7 +55,7 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
   handleLoginAs: () => {},
   handleLogout: () => {},
   playerInfor: player_infor,
-  handleGetPlayerInfor: () => false,
+  handleGetPlayerInfor: () => {},
 });
 
 export const AuthenticationProvider = ({ children }: ChildrenProps) => {
@@ -105,17 +105,17 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
   const handleGetPlayerInfor = (address: string) => {
     getPlayerInfor(address)
       .then((res) => {
-        if (!res) return false;
+        if (!res) {
+          return;
+        }
 
         if (res.content?.dataType === "moveObject")
           setPlayerInfor(res.content.fields as PlayerInfo);
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.log(error);
-        return false;
+        router.push("/auth/create-account");
       });
-
-    return true;
   };
   return (
     <AuthenticationContext.Provider

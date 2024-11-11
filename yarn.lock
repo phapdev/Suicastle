@@ -485,16 +485,16 @@
     clsx "^2.0.0"
     zustand "^4.4.1"
 
-"@mysten/enoki@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.npmjs.org/@mysten/enoki/-/enoki-0.3.5.tgz"
-  integrity sha512-JWIArtylnWMsh90MRKjt3LPVM9WBbfHHdwkHyf69l2Qufo1+mc84a5a22funlR0IhUy74RGGLJR/JxB7WahJiA==
+"@mysten/enoki@0.4.9":
+  version "0.4.9"
+  resolved "https://registry.npmjs.org/@mysten/enoki/-/enoki-0.4.9.tgz"
+  integrity sha512-4Hu1ICYHpvYVmaEsOXGSrP8OZ1rL58s3Jf6YTiAJBf9QbTmDormqoM1hLxY4kbgWPuRPjETFM+AZp6QcprhfmA==
   dependencies:
-    "@mysten/sui" "1.0.5"
-    "@mysten/zklogin" "0.7.5"
-    "@nanostores/react" "^0.7.1"
-    jose "^5.2.3"
-    nanostores "^0.9.3"
+    "@mysten/sui" "1.14.2"
+    "@mysten/zklogin" "0.7.26"
+    "@nanostores/react" "^0.7.2"
+    jose "^5.6.3"
+    nanostores "^0.10.3"
 
 "@mysten/sui@1.0.5":
   version "1.0.5"
@@ -548,15 +548,15 @@
     "@mysten/sui" "1.14.2"
     "@wallet-standard/core" "1.0.3"
 
-"@mysten/zklogin@0.7.5":
-  version "0.7.5"
-  resolved "https://registry.npmjs.org/@mysten/zklogin/-/zklogin-0.7.5.tgz"
-  integrity sha512-T+iDq72TcJZQJtBcfoJKqNpvmR+iERLOx2yYF5L3zDvNV07pyJqvNJi1w9WgqaY/Ig0ibKNRAJ4WIi5p4t6ywg==
+"@mysten/zklogin@0.7.26":
+  version "0.7.26"
+  resolved "https://registry.npmjs.org/@mysten/zklogin/-/zklogin-0.7.26.tgz"
+  integrity sha512-iD2OGUcSbUb4QhEJIMqnO1+xYiA/S5YtdaE7Z/bWcRjEY95w0ivggAaY9/2fyTWop2fDDJncwl5i+GzZE2hEMw==
   dependencies:
-    "@mysten/bcs" "1.0.2"
-    "@mysten/sui" "1.0.5"
-    "@noble/hashes" "^1.3.1"
-    jose "^5.2.3"
+    "@mysten/bcs" "1.1.0"
+    "@mysten/sui" "1.14.2"
+    "@noble/hashes" "^1.4.0"
+    jose "^5.6.3"
     poseidon-lite "^0.2.0"
 
 "@mysten/zksend@^0.11.11":
@@ -581,7 +581,7 @@
     nanostores "^0.9.3"
     valibot "^0.25.0"
 
-"@nanostores/react@^0.7.1":
+"@nanostores/react@^0.7.2":
   version "0.7.2"
   resolved "https://registry.npmjs.org/@nanostores/react/-/react-0.7.2.tgz"
   integrity sha512-e3OhHJFv3NMSFYDgREdlAQqkyBTHJM91s31kOZ4OvZwJKdFk5BLk0MLbh51EOGUz9QGX2aCHfy1RvweSi7fgwA==
@@ -617,12 +617,12 @@
   dependencies:
     "@noble/hashes" "1.5.0"
 
-"@noble/hashes@^1.3.1", "@noble/hashes@~1.4.0", "@noble/hashes@1.4.0":
+"@noble/hashes@^1.3.1", "@noble/hashes@^1.4.0", "@noble/hashes@~1.4.0", "@noble/hashes@1.4.0":
   version "1.4.0"
   resolved "https://registry.npmjs.org/@noble/hashes/-/hashes-1.4.0.tgz"
   integrity sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==
 
-"@noble/hashes@^1.4.0", "@noble/hashes@1.5.0":
+"@noble/hashes@1.5.0":
   version "1.5.0"
   resolved "https://registry.npmjs.org/@noble/hashes/-/hashes-1.5.0.tgz"
   integrity sha512-1j6kQFb7QRru7eKN3ZDvRcP13rugwdxZqCjbiAVZfIJwgj2A65UmT4TgARXGlXgnRkORLTDTrO19ZErt7+QXgA==
@@ -2738,10 +2738,10 @@ jiti@^1.21.0:
   resolved "https://registry.npmjs.org/jiti/-/jiti-1.21.0.tgz"
   integrity sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==
 
-jose@^5.2.3:
-  version "5.4.0"
-  resolved "https://registry.npmjs.org/jose/-/jose-5.4.0.tgz"
-  integrity sha512-6rpxTHPAQyWMb9A35BroFl1Sp0ST3DpPcm5EVIxZxdH+e0Hv9fwhyB3XLKFUcHNpdSDnETmBfuPPTTlYz5+USw==
+jose@^5.6.3:
+  version "5.9.6"
+  resolved "https://registry.npmjs.org/jose/-/jose-5.9.6.tgz"
+  integrity sha512-AMlnetc9+CV9asI19zHmrgS/WYsWUwCn2R7RzlbJWD7F9eWYUTGyBmU9o6PxngtLGOiDGPRu+Uc4fhKzbpteZQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -3193,9 +3193,9 @@ pirates@^4.0.1:
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
 poseidon-lite@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/poseidon-lite/-/poseidon-lite-0.2.0.tgz"
-  integrity sha512-vivDZnGmz8W4G/GzVA72PXkfYStjilu83rjjUfpL4PueKcC8nfX6hCPh2XhoC5FBgC6y0TA3YuUeUo5YCcNoig==
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/poseidon-lite/-/poseidon-lite-0.2.1.tgz"
+  integrity sha512-xIr+G6HeYfOhCuswdqcFpSX47SPhm0EpisWJ6h7fHlWwaVIvH3dLnejpatrtw6Xc6HaLrpq05y7VRfvDmDGIog==
 
 possible-typed-array-names@^1.0.0:
   version "1.0.0"

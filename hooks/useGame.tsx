@@ -39,9 +39,6 @@ export const useGame = () => {
 
     txb.moveCall({
       arguments: [
-        txb.object(
-          "0x6bbfbf17d9b88cd478429feff353f339805b990e769f2e8499b1c3bed04be1ee"
-        ),
         txb.object(player_id),
         txb.pure.u64(points),
         txb.object(SUI_CLOCK_OBJECT_ID),
@@ -49,7 +46,7 @@ export const useGame = () => {
       target: `${clientConfig.PACKAGE_ID}::sui_castle::${functionName}`,
     });
 
-    return await callAdminContract(txb);
+    return await callContract(txb);
   };
 
   return { playRound, endGame };

@@ -26,9 +26,7 @@ const MobileHeader = () => {
   useEffect(() => {
     if (!isConnected) router.push("/auth/login");
     if (!address) return;
-    const result = handleGetPlayerInfor(address);
-
-    if (!result) router.push("/auth/create-account");
+    handleGetPlayerInfor(address);
   }, [isConnected, address]);
 
   useEffect(() => {

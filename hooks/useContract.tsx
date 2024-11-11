@@ -4,7 +4,6 @@ import { useSuiClient } from "@mysten/dapp-kit";
 import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
-import { fromHEX } from "@mysten/sui/utils";
 
 export const useContract = () => {
   const { sponsorAndExecuteTransactionBlock, address } = useCustomWallet();

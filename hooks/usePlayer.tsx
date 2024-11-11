@@ -10,30 +10,26 @@ export const usePlayer = () => {
   const suiClient = useSuiClient();
 
   const getPlayerInfor = async (address: string) => {
-    try {
-      const txn = await suiClient.getOwnedObjects({
-        owner: address,
-      });
+    const txn = await suiClient.getOwnedObjects({
+      owner: address,
+    });
 
-      if (txn.data.length === 0) throw new Error("User haven't create account");
+    if (txn.data.length === 0) throw new Error("User haven't create account");
 
-      const idPlayerInfor = txn.data[0].data?.objectId;
+    const idPlayerInfor = txn.data[0].data?.objectId;
 
-      if (!idPlayerInfor) {
-        throw new Error("User haven't create account");
-      }
-
-      const data = await suiClient.getObject({
-        id: idPlayerInfor,
-        options: { showContent: true },
-      });
-
-      if (data.error) throw new Error("Cannot get user data");
-
-      return data.data;
-    } catch (error) {
-      console.error("Error fetching player info:", error);
+    if (!idPlayerInfor) {
+      throw new Error("User haven't create account");
     }
+
+    const data = await suiClient.getObject({
+      id: idPlayerInfor,
+      options: { showContent: true },
+    });
+
+    if (data.error) throw new Error("Can not get user data");
+
+    return data.data;
   };
 
   const createAccount = async (

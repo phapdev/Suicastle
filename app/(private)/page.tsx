@@ -45,10 +45,11 @@ const HomeMobile = () => {
   const { claimCredit } = useCredit();
 
   useEffect(() => {
+    if (playerInfor.id.id === "") return;
     endGame(1, playerInfor.id.id, 100).then((res) => {
       console.log(res);
     });
-  }, []);
+  }, [playerInfor]);
 
   const handleClaimCredit = async () => {
     if (!isConnected) return;
