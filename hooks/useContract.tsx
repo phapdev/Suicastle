@@ -44,6 +44,7 @@ export const useContract = () => {
 
     const result = await suiClient.signAndExecuteTransaction({
       signer: keypair,
+      // @ts-ignore
       transaction: txb,
     });
     return await suiClient.waitForTransaction({ digest: result.digest });
