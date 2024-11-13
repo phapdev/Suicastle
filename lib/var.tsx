@@ -6,19 +6,19 @@ export const MODULE_ADDRESS =
 export const heros: Hero[] = [
   {
     id: 0,
-    name: "The Knight",
+    name: "The Swordman",
     description:
-      "Knight of the Web3 Realm, The Ultimate Web3 Loyalty and Entertainment App.",
-    image: "/knight.gif",
+      "Swordman of the Web3 Realm, The Ultimate Web3 Loyalty and Entertainment App.",
+    image: "/swordman.gif",
     price: 100,
     is_valid: true,
   },
   {
     id: 1,
-    name: "The Swordman",
+    name: "The Knight",
     description:
       "Knight of the Web3 Realm, The Ultimate Web3 Loyalty and Entertainment App.",
-    image: "/swordman.gif",
+    image: "/knight.gif",
     price: 100,
     is_valid: true,
   },

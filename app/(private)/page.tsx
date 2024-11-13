@@ -43,8 +43,6 @@ const HomeMobile = () => {
   );
   const { claimCredit } = useCredit();
 
-  console.log(playerInfor);
-
   const handleClaimCredit = async () => {
     if (!isConnected) return;
     setIsClaiming(true);

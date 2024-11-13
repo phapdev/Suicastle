@@ -1,6 +1,10 @@
 import clientConfig from "@/config/clientConfig";
 import { useCustomWallet } from "@/contexts/CustomWallet";
-import { SuiTransactionBlockResponse } from "@mysten/sui/client";
+import {
+  SuiObjectData,
+  SuiObjectResponse,
+  SuiTransactionBlockResponse,
+} from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
 import { useContract } from "./useContract";
 import { useSuiClient } from "@mysten/dapp-kit";
@@ -11,26 +15,29 @@ export const usePlayer = () => {
   const suiClient = useSuiClient();
 
   const getPlayerInfor = async (address: string) => {
+    var result: SuiObjectData | null = null;
     const txn = await suiClient.getOwnedObjects({
       owner: address,
     });
 
-    if (txn.data.length === 0) throw new Error("User haven't create account");
+    const idObjects = txn.data.map((data) => data.data?.objectId);
+    if (idObjects.length === 0) throw new Error("User haven't create account");
 
-    const idPlayerInfor = txn.data[0].data?.objectId;
+    for (const id of idObjects) {
+      if (!id) continue;
+      const data = await suiClient.getObject({
+        id: id,
+        options: { showContent: true },
+      });
 
-    if (!idPlayerInfor) {
-      throw new Error("User haven't create account");
+      if (data.error) throw new Error("Can not get user data");
+
+      if (data.data?.content?.dataType === "moveObject")
+        if (data.data.content.type.split("::").includes("PlayerAccount"))
+          result = data.data as SuiObjectData;
     }
 
-    const data = await suiClient.getObject({
-      id: idPlayerInfor,
-      options: { showContent: true },
-    });
-
-    if (data.error) throw new Error("Can not get user data");
-
-    return data.data;
+    return result;
   };
 
   const createAccount = async (

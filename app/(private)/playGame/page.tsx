@@ -19,8 +19,6 @@ const PlayGame: React.FC = () => {
   useEffect(() => {
     if (!isConnected || playerInfor.id.id == "") return;
 
-    console.log(playerInfor.id.id)
-
     if (!isSign) {
       setLoadGame(false);
 

@@ -8,6 +8,7 @@ import { isFollowingUserPropsSchema } from "@/helpers/isFollowingUserPropsSchema
 import { useQuery } from "@tanstack/react-query";
 import { PlayerInfo } from "@/types/types";
 import { usePlayer } from "@/hooks/usePlayer";
+import { SuiObjectData } from "@mysten/sui/client";
 
 export const anonymousUser: UserProps = {
   firstName: "",
@@ -107,7 +108,7 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
 
   const handleGetPlayerInfor = (address: string) => {
     getPlayerInfor(address)
-      .then((res) => {
+      .then((res: SuiObjectData | null) => {
         if (!res) {
           return;
         }

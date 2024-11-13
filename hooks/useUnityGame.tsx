@@ -1,4 +1,10 @@
-import { useContext, forwardRef, useEffect, useCallback } from "react";
+import {
+  useContext,
+  forwardRef,
+  useEffect,
+  useCallback,
+  useState,
+} from "react";
 import { Unity } from "react-unity-webgl";
 import styled from "styled-components";
 import UnityGameContext from "@/contexts/UnityGameProvider";
@@ -24,27 +30,29 @@ const UnityGameComponent = forwardRef(
     const { unityProvider, sendMessage } = useUnityGame();
     const { endGame } = useGame();
     const { isConnected } = useCustomWallet();
-    const { playerInfor } = useContext(AuthenticationContext);
+    const { playerInfor, selectedHero } = useContext(AuthenticationContext);
+    const [isCalledEndgame, setIsCalledEndgame] = useState(false);
 
     const handleEndGameEvent = useCallback(
       ({ detail }: CustomEvent<{ Score: number }>) => {
+        if (isCalledEndgame) return;
+
+        setIsCalledEndgame(true);
         const { Score } = detail;
         if (!isConnected) return;
 
         const round =
           playerInfor.current_round !== 0 ? playerInfor.current_round : 1;
 
-        console.log("endgame", Score, round);
-
         endGame(round, playerInfor.id.id, Score).then((res) => {
           props.setIsEndGameModalOpen(true);
         });
       },
-      [playerInfor]
+      [playerInfor, isCalledEndgame]
     );
 
     const handleGameCanPlayEvent = () => {
-      sendMessage("GameController", "SettingForGameOpen", 1);
+      sendMessage("GameController", "SettingForGameOpen", selectedHero);
     };
 
     useEffect(() => {
