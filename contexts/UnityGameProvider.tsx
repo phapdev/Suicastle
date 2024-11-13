@@ -12,6 +12,7 @@ const UnityGameContext = createContext<{
     methodName: string,
     parameter?: ReactUnityEventParameter
   ) => void;
+  requestPointerLock: () => void;
 }>({
   isLoaded: false,
   unityProvider: undefined,
@@ -22,6 +23,9 @@ const UnityGameContext = createContext<{
   ): void {
     throw new Error("Function not implemented.");
   },
+  requestPointerLock: function (): void {
+    throw new Error("Function not implemented.");
+  }
 });
 
 interface GameProviderProps {
@@ -31,12 +35,13 @@ interface GameProviderProps {
 export const UnityGameProvider: React.FC<GameProviderProps> = ({
   children,
 }) => {
-  const { isLoaded, unityProvider, sendMessage } = useUnityContext({
-    loaderUrl: "build/Build/Build.loader.js",
-    dataUrl: "build/Build/Build.data",
-    frameworkUrl: "build/Build/Build.framework.js",
-    codeUrl: "build/Build/Build.wasm",
-  });
+  const { isLoaded, unityProvider, sendMessage, requestPointerLock } =
+    useUnityContext({
+      loaderUrl: "build/Build/Build.loader.js",
+      dataUrl: "build/Build/Build.data",
+      frameworkUrl: "build/Build/Build.framework.js",
+      codeUrl: "build/Build/Build.wasm",
+    });
 
   return (
     <UnityGameContext.Provider
@@ -44,6 +49,7 @@ export const UnityGameProvider: React.FC<GameProviderProps> = ({
         isLoaded,
         unityProvider,
         sendMessage,
+        requestPointerLock,
       }}
     >
       {children}

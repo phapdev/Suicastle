@@ -27,7 +27,7 @@ const UnityGameComponent = forwardRef(
     },
     ref
   ) => {
-    const { unityProvider, sendMessage } = useUnityGame();
+    const { unityProvider, sendMessage, requestPointerLock } = useUnityGame();
     const { endGame } = useGame();
     const { isConnected } = useCustomWallet();
     const { playerInfor, selectedHero } = useContext(AuthenticationContext);
@@ -35,6 +35,7 @@ const UnityGameComponent = forwardRef(
 
     const handleEndGameEvent = useCallback(
       ({ detail }: CustomEvent<{ Score: number }>) => {
+        console.log("handleEndGameEvent", detail);
         if (isCalledEndgame) return;
 
         setIsCalledEndgame(true);
@@ -46,6 +47,7 @@ const UnityGameComponent = forwardRef(
 
         endGame(round, playerInfor.id.id, Score).then((res) => {
           props.setIsEndGameModalOpen(true);
+          requestPointerLock();
         });
       },
       [playerInfor, isCalledEndgame]

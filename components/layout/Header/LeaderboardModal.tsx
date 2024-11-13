@@ -1,9 +1,9 @@
 import React from "react";
 import { Modal, Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import { LeaderBoardInfo } from "../../../types/types";
 import { usePlayer } from "@/hooks/usePlayer";
 import clsx from "clsx";
+import { LeaderBoardEvent } from "@/types/Events";
 
 interface LeaderboardModalProps {
   open: boolean;
@@ -15,7 +15,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
   handleClose,
 }) => {
   const { getDashboardInfor } = usePlayer();
-  const [leaderboard, setLeaderboard] = useState<LeaderBoardInfo[] | null>(
+  const [leaderboard, setLeaderboard] = useState<LeaderBoardEvent[] | null>(
     null
   );
 
@@ -24,9 +24,15 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
       const data = await getDashboardInfor();
 
       console.log(data);
-      // if (data) {
-      //   setLeaderboard(data.events);
-      // }
+      if (!data.events) {
+        setLeaderboard([]);
+        return;
+      }
+      const leaderboardData = data.events.map((e) => {
+        return e.parsedJson as LeaderBoardEvent;
+      });
+
+      setLeaderboard(leaderboardData);
     };
 
     getLeaderboard();
