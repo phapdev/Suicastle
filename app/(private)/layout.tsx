@@ -51,7 +51,9 @@ const Layout = ({
       <HeaderWrapper>
         <MobileHeader />
       </HeaderWrapper>
-      <MainContentWrapper>{children}</MainContentWrapper>
+      <MainContentWrapper className="hidden-scroll">
+        {children}
+      </MainContentWrapper>
       {!hideSidebarRoutes.includes(pathname) && (
         <SideBarWrapper>
           <SideBar />

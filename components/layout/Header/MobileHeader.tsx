@@ -2,7 +2,7 @@
 import { ContentCopy } from "@mui/icons-material";
 import { shortenAddress } from "@/lib/utils";
 import { useContext, useEffect, useState } from "react";
-import { Button, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { BiSolidCoinStack } from "react-icons/bi";
 import { RiKey2Fill } from "react-icons/ri";
 import { FaRankingStar } from "react-icons/fa6";
@@ -26,9 +26,7 @@ const MobileHeader = () => {
   useEffect(() => {
     if (!isConnected) router.push("/auth/login");
     if (!address) return;
-    const result = handleGetPlayerInfor(address);
-
-    if (!result) router.push("/auth/create-account");
+    handleGetPlayerInfor(address);
   }, [isConnected, address]);
 
   useEffect(() => {
@@ -95,7 +93,7 @@ const MobileHeader = () => {
                 className="cursor-pointer !text-base"
               />
               <span className="text-lg">
-                {isConnected && !!address && shortenAddress(address, 5)}
+                <p>{shortenAddress(address, 5)}</p>
               </span>
             </div>
           </Tooltip>
@@ -110,9 +108,6 @@ const MobileHeader = () => {
         >
           <img src={user.picture} alt="" className="rounded-full" />
         </button>
-        {/* <button>
-          <HiUserGroup />
-        </button> */}
         <button
           onClick={() => {
             setLeaderboardModal(true);

@@ -8,6 +8,7 @@ import { isFollowingUserPropsSchema } from "@/helpers/isFollowingUserPropsSchema
 import { useQuery } from "@tanstack/react-query";
 import { PlayerInfo } from "@/types/types";
 import { usePlayer } from "@/hooks/usePlayer";
+import { SuiObjectData } from "@mysten/sui/client";
 
 export const anonymousUser: UserProps = {
   firstName: "",
@@ -34,8 +35,8 @@ const player_infor: PlayerInfo = {
   point: "0",
   gold: "0",
   id: {
-    id: ""
-  }
+    id: "",
+  },
 };
 
 export const useAuthentication = () => {
@@ -55,7 +56,9 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
   handleLoginAs: () => {},
   handleLogout: () => {},
   playerInfor: player_infor,
-  handleGetPlayerInfor: () => false,
+  handleGetPlayerInfor: () => {},
+  selectedHero: 0,
+  setSelectedHero: () => {},
 });
 
 export const AuthenticationProvider = ({ children }: ChildrenProps) => {
@@ -63,6 +66,7 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
   const [playerInfor, setPlayerInfor] = useState<PlayerInfo>(player_infor);
   const [isLoading, setIsLoading] = useState(false);
   const { getPlayerInfor } = usePlayer();
+  const [selectedHero, setSelectedHero] = useState(0);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -104,17 +108,18 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
 
   const handleGetPlayerInfor = (address: string) => {
     getPlayerInfor(address)
-      .then((res) => {
-        console.log(res);
-        if (!res) return;
+      .then((res: SuiObjectData | null) => {
+        if (!res) {
+          return;
+        }
 
         if (res.content?.dataType === "moveObject")
           setPlayerInfor(res.content.fields as PlayerInfo);
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.log(error);
+        router.push("/auth/create-account");
       });
-    return false;
   };
   return (
     <AuthenticationContext.Provider
@@ -126,6 +131,8 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
         handleLogout,
         playerInfor,
         handleGetPlayerInfor,
+        selectedHero,
+        setSelectedHero,
       }}
     >
       {children}

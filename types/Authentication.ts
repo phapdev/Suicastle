@@ -17,5 +17,7 @@ export interface AuthenticationContextProps {
   handleLoginAs: (user: UserProps) => void;
   handleLogout: () => void;
   playerInfor: PlayerInfo;
-  handleGetPlayerInfor: (address: string) => boolean;
+  handleGetPlayerInfor: (address: string) => void;
+  selectedHero: number;
+  setSelectedHero: React.Dispatch<React.SetStateAction<number>>;
 }

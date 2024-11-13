@@ -6,9 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function shortenAddress(
-  address: string,
+  address: string | undefined,
   truncateLength: number
 ): string {
+  if (!address) return "";
+
   const length = address.length - 2;
   if (length <= truncateLength) {
     return address;

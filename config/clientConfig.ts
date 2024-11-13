@@ -17,7 +17,7 @@ const clientConfigSchema = z.object({
   GAMESTATE_ID: z.string(),
 });
 
-console.log(process.env.NEXT_PUBLIC_SUI_NETWORK)
+console.log(process.env.NEXT_PUBLIC_SUI_NETWORK);
 
 const clientConfig = clientConfigSchema.parse({
   SUI_NETWORK: process.env.NEXT_PUBLIC_SUI_NETWORK!,

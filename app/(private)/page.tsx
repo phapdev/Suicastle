@@ -9,6 +9,7 @@ import { useCustomWallet } from "@/contexts/CustomWallet";
 import { useRouter } from "next/navigation";
 import { useCredit } from "@/hooks/useCredit";
 import { AuthenticationContext } from "@/contexts/Authentication";
+import SelectHero from "@/components/SelectHero";
 
 const maps = [
   {
@@ -37,10 +38,9 @@ const HomeMobile = () => {
   const { setAlert } = useAlert();
   const router = useRouter();
   const { isConnected } = useCustomWallet();
-  const { user, handleGetPlayerInfor, playerInfor } = useContext(
+  const { handleGetPlayerInfor, playerInfor } = useContext(
     AuthenticationContext
   );
-
   const { claimCredit } = useCredit();
 
   const handleClaimCredit = async () => {
@@ -62,9 +62,7 @@ const HomeMobile = () => {
   useEffect(() => {
     if (!isConnected) return;
 
-    const test = new Date(
-      Number(playerInfor.last_claim_time) + 86400000
-    );
+    const test = new Date(Number(playerInfor.last_claim_time) + 86400000);
 
     setExpiryTimestamp(test);
 
@@ -92,7 +90,7 @@ const HomeMobile = () => {
 
   const handlePlayGame = () => {
     if (!isConnected) return;
-    if (1) {
+    if (Number(playerInfor.credits) !== 0) {
       router.push("/playGame");
     } else {
       setAlert(
@@ -108,8 +106,10 @@ const HomeMobile = () => {
       className="mx-auto flex w-full max-w-screen-sm flex-col items-center px-8"
     >
       <div className="flex w-full flex-grow flex-col justify-center text-white">
+        {/* select hero */}
+        <SelectHero />
         {/* game */}
-        <div className="relative z-10 flex w-full flex-col justify-between">
+        <div className="relative z-10 flex w-full flex-col justify-between mt-10">
           <div className="flex w-full justify-center">
             <h1 className="border-b-2 border-white px-5 text-3xl text-mainColor">
               MAP {`${selectedMap !== 4 ? "0" + selectedMap : "???"}`}
@@ -142,7 +142,7 @@ const HomeMobile = () => {
           <div className="mt-10 flex w-full justify-center">
             <button
               disabled={currentMap !== selectedMap}
-              className="disabled:opacity-15 border-2 border-white px-10 py-2 text-2xl hover:bg-white"
+              className="disabled:opacity-15 border-2 border-white px-10 py-2 text-2xl hover:bg-white rounded"
               onClick={handlePlayGame}
             >
               Play
