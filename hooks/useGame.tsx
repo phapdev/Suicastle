@@ -49,5 +49,19 @@ export const useGame = () => {
     return await callContract(txb);
   };
 
-  return { playRound, endGame };
+  const openTreasure = async (
+    player_id: string
+  ): Promise<SuiTransactionBlockResponse> => {
+    const txb = new Transaction();
+    const functionName = `open_treasure_round11`;
+
+    txb.moveCall({
+      arguments: [txb.object(player_id), txb.object(SUI_CLOCK_OBJECT_ID)],
+      target: `${clientConfig.PACKAGE_ID}::sui_castle::${functionName}`,
+    });
+
+    return await callContract(txb);
+  };
+
+  return { playRound, endGame, openTreasure };
 };

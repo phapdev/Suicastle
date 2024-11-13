@@ -21,15 +21,14 @@ const UnityGameComponent = forwardRef(
     },
     ref
   ) => {
-    const { unityProvider } = useUnityGame();
+    const { unityProvider, sendMessage } = useUnityGame();
     const { endGame } = useGame();
     const { isConnected } = useCustomWallet();
     const { playerInfor } = useContext(AuthenticationContext);
 
-    const handleComponentEvent = useCallback(
+    const handleEndGameEvent = useCallback(
       ({ detail }: CustomEvent<{ Score: number }>) => {
         const { Score } = detail;
-
         if (!isConnected) return;
 
         const round =
@@ -38,28 +37,38 @@ const UnityGameComponent = forwardRef(
         console.log("endgame", Score, round);
 
         endGame(round, playerInfor.id.id, Score).then((res) => {
-          console.log(res);
-          //   props.setIsEndGameModalOpen(true);
+          props.setIsEndGameModalOpen(true);
         });
       },
       [playerInfor]
     );
 
+    const handleGameCanPlayEvent = () => {
+      sendMessage("GameController", "SettingForGameOpen", 1);
+    };
+
     useEffect(() => {
       // Add the event listener
       addEventListener(
         "PushRewardForPlayerEvent",
-        handleComponentEvent as EventListener
+        handleEndGameEvent as EventListener
       );
+
+      addEventListener("GameCanPlay", handleGameCanPlayEvent as EventListener);
 
       // Clean up the event listener on unmount
       return () => {
         removeEventListener(
           "PushRewardForPlayer",
-          handleComponentEvent as EventListener
+          handleEndGameEvent as EventListener
+        );
+
+        removeEventListener(
+          "GameCanPlay",
+          handleGameCanPlayEvent as EventListener
         );
       };
-    }, [handleComponentEvent]);
+    }, [handleEndGameEvent, handleGameCanPlayEvent]);
 
     return <UnityGame unityProvider={unityProvider} />;
   }

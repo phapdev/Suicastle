@@ -1,6 +1,41 @@
+"use client";
+import { AuthenticationContext } from "@/contexts/Authentication";
+import { useContext, useState } from "react";
 import { BiSolidCoinStack } from "react-icons/bi";
+import { FaLock } from "react-icons/fa";
+import { useAlert } from "@/contexts/AlertProvider";
+import { useMarketplace } from "@/hooks/useMarketplace";
 
 const Marketplace = () => {
+  const { playerInfor } = useContext(AuthenticationContext);
+  const { setAlert } = useAlert();
+  const { buyHero } = useMarketplace();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleBuyHero = async () => {
+    if (playerInfor.id.id == "") {
+      setAlert("Something went wrong, please try again", "error");
+      return;
+    }
+
+    if (Number(playerInfor.gold) < 100) {
+      setAlert("You don't have enough gold to buy this hero", "warning");
+      return;
+    }
+
+    if (playerInfor.hero_owned === "2") {
+      setAlert("You already own this hero, please reload", "warning");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const result = await buyHero(playerInfor.id.id);
+    console.log(result);
+
+    setIsLoading(false);
+  };
+
   return (
     <div className="mx-auto flex h-full w-full max-w-screen-sm flex-col items-center px-4 space-y-4">
       <h1 className="text-3xl text-white">Marketplace</h1>
@@ -15,9 +50,8 @@ const Marketplace = () => {
               Knight of the Web3 Realm, The Ultimate Web3 Loyalty and
               Entertainment App.
             </p>
-            <button className="px-10 bg-mainColor rounded mt-2 text-black flex items-center space-x-1">
-              <BiSolidCoinStack />
-              <p>1M</p>
+            <button className="px-10 bg-[#ccc] rounded mt-2 text-black flex items-center space-x-1 cursor-default">
+              You own this hero
             </button>
           </div>
         </div>
@@ -27,10 +61,25 @@ const Marketplace = () => {
           </div>
           <div className="flex flex-col items-center py-4">
             <h1>The Swordman</h1>
-            <button className="px-10 bg-mainColor rounded mt-2 text-black flex items-center space-x-1">
-              <BiSolidCoinStack />
-              <p>1M</p>
-            </button>
+            {playerInfor.hero_owned === "2" ? (
+              <button className="px-10 bg-[#ccc] rounded mt-2 text-black flex items-center space-x-1 cursor-default">
+                You own this hero
+              </button>
+            ) : (
+              <button
+                onClick={handleBuyHero}
+                className="px-10 bg-mainColor rounded mt-2 text-black flex items-center space-x-1"
+              >
+                {isLoading ? (
+                  "buying..."
+                ) : (
+                  <>
+                    <BiSolidCoinStack />
+                    <p>100</p>
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
         <div className="rounded-2xl bg-[#D9D9D9]/20 backdrop-blur text-white flex flex-col">
@@ -39,9 +88,9 @@ const Marketplace = () => {
           </div>
           <div className="flex flex-col items-center py-4">
             <h1>The Soldier</h1>
-            <button className="px-10 bg-mainColor rounded mt-2 text-black flex items-center space-x-1">
-              <BiSolidCoinStack />
-              <p>1M</p>
+            <button className="px-5 bg-[#ccc] rounded mt-2 text-black flex items-center space-x-1 cursor-default">
+              <FaLock />
+              <p>Coming soon</p>
             </button>
           </div>
         </div>

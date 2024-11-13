@@ -4,6 +4,7 @@ import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
 import { useContract } from "./useContract";
 import { useSuiClient } from "@mysten/dapp-kit";
+import { SUI_CLOCK_OBJECT_ID } from "@mysten/sui/utils";
 
 export const usePlayer = () => {
   const { callContract } = useContract();
@@ -42,6 +43,7 @@ export const usePlayer = () => {
       arguments: [
         txb.object(clientConfig.GAMESTATE_ID),
         txb.pure.string(username),
+        txb.object(SUI_CLOCK_OBJECT_ID),
       ],
       target: `${clientConfig.PACKAGE_ID}::sui_castle::${functionName}`,
     });
@@ -54,7 +56,10 @@ export const usePlayer = () => {
     const functionName = "get_top_players_by_points";
 
     txb.moveCall({
-      arguments: [txb.object(clientConfig.GAMESTATE_ID)],
+      arguments: [
+        txb.object(clientConfig.GAMESTATE_ID),
+        txb.object(SUI_CLOCK_OBJECT_ID),
+      ],
       target: `${clientConfig.PACKAGE_ID}::sui_castle::${functionName}`,
     });
 

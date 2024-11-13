@@ -1,15 +1,12 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-import { Modal } from "@mui/material";
 import UnityGameComponent, { useUnityGame } from "@/hooks/useUnityGame";
 import { useGame } from "@/hooks/useGame";
 import { useCustomWallet } from "@/contexts/CustomWallet";
 import { AuthenticationContext } from "@/contexts/Authentication";
-
-// import EndGameModal from "../../components/EndGameModal/EndGameModal";
+import EndGameModal from "@/components/EndGameModal/EndGameModal";
 
 const PlayGame: React.FC = () => {
-  const { isLoaded } = useUnityGame();
   const [loadGame, setLoadGame] = useState(false);
   const { playRound } = useGame();
   const [isEndGameModalOpen, setIsEndGameModalOpen] = useState(false);
@@ -20,9 +17,11 @@ const PlayGame: React.FC = () => {
   );
 
   useEffect(() => {
-    if (!isConnected) return;
+    if (!isConnected || playerInfor.id.id == "") return;
 
-    if (isLoaded && !isSign) {
+    console.log(playerInfor.id.id)
+
+    if (!isSign) {
       setLoadGame(false);
 
       const round =
@@ -33,11 +32,11 @@ const PlayGame: React.FC = () => {
         await handleGetPlayerInfor(playerInfor.address_id);
       });
     }
-  }, [isLoaded, playRound, isSign]);
+  }, [isSign, playerInfor, isConnected]);
 
   return (
     <>
-      {/* <EndGameModal open={isEndGameModalOpen} /> */}
+      <EndGameModal open={isEndGameModalOpen} />
       {!loadGame ? (
         <div className="h-full w-full">
           <UnityGameComponent setIsEndGameModalOpen={setIsEndGameModalOpen} />

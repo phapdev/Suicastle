@@ -56,6 +56,8 @@ export const AuthenticationContext = createContext<AuthenticationContextProps>({
   handleLogout: () => {},
   playerInfor: player_infor,
   handleGetPlayerInfor: () => {},
+  selectedHero: 0,
+  setSelectedHero: () => {},
 });
 
 export const AuthenticationProvider = ({ children }: ChildrenProps) => {
@@ -63,6 +65,7 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
   const [playerInfor, setPlayerInfor] = useState<PlayerInfo>(player_infor);
   const [isLoading, setIsLoading] = useState(false);
   const { getPlayerInfor } = usePlayer();
+  const [selectedHero, setSelectedHero] = useState(0);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -127,6 +130,8 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
         handleLogout,
         playerInfor,
         handleGetPlayerInfor,
+        selectedHero,
+        setSelectedHero,
       }}
     >
       {children}

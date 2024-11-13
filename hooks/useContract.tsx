@@ -22,6 +22,7 @@ export const useContract = () => {
       options: {
         showEffects: true,
         showObjectChanges: true,
+        showEvents: true,
       },
     })
       .then((resp) => {

@@ -24,13 +24,13 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
       const data = await getDashboardInfor();
 
       console.log(data);
-      //   if (data) {
-      //     setLeaderboard(data);
-      //   }
+      // if (data) {
+      //   setLeaderboard(data.events);
+      // }
     };
 
-    if (open) getLeaderboard();
-  }, [open]);
+    getLeaderboard();
+  }, []);
 
   return (
     <Modal
