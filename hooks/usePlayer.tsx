@@ -37,7 +37,6 @@ export const usePlayer = () => {
           result = data.data as SuiObjectData;
     }
 
-    console.log(result);
     return result;
   };
 

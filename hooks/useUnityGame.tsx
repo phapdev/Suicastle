@@ -45,10 +45,15 @@ const UnityGameComponent = forwardRef(
         const round =
           playerInfor.current_round !== 0 ? playerInfor.current_round : 1;
 
-        endGame(round, playerInfor.id.id, Score).then((res) => {
-          props.setIsEndGameModalOpen(true);
-          requestPointerLock();
-        });
+        endGame(round, playerInfor.id.id, Score)
+          .then((res) => {})
+          .catch((error) => {
+            console.log("error", error);
+          })
+          .finally(() => {
+            props.setIsEndGameModalOpen(true);
+            requestPointerLock();
+          });
       },
       [playerInfor, isCalledEndgame]
     );

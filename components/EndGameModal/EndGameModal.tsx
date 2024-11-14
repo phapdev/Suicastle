@@ -6,7 +6,7 @@ import { AuthenticationContext } from "@/contexts/Authentication";
 import Image from "next/image";
 import clsx from "clsx";
 import { OpenTreasureEvent } from "@/types/Events";
-import { number } from "zod";
+import { BiSolidCoinStack } from "react-icons/bi";
 
 interface EndGameModalProps {
   open: boolean;
@@ -43,29 +43,57 @@ const EndGameModal: React.FC<EndGameModalProps> = ({ open }) => {
         {step === 0 && (
           <div className="flex w-3/4 flex-col items-center justify-around rounded-lg  px-6 py-10 text-white">
             <h1 className="text-white text-2xl">
-              You got <b className="text-mainColor">1</b> treasure
+              {gold === 0 ? (
+                <>
+                  You got a <b className="text-mainColor">treasure</b>
+                </>
+              ) : (
+                "Congratulations! You got"
+              )}
             </h1>
-            <div className="h-24 w-2/3 object-cover shadow-inner brightness-75 translate-x-7">
+            <div className="h-24 w-2/3 object-cover shadow-inner brightness-75 translate-x-7 relative mt-10">
               <Image
                 src={gold === 0 ? "/treasure.gif" : "/treasureOpen.gif"}
                 fill
                 alt="treasure"
+                className="z-20 relative"
               />
+              <div
+                className={clsx(
+                  "absolute bottom-0 left-1/2 -translate-x-12 z-10 delay-700 transition-all flex flex-col items-center duration-300",
+                  gold !== 0 && "-translate-y-20"
+                )}
+              >
+                <p className="text-3xl text-mainColor">{gold}</p>
+                <BiSolidCoinStack />
+              </div>
             </div>
             <div className="w-full flex justify-around mt-5">
-              <button
-                onClick={handleOpenTreasure}
-                className="rounded-lg bg-mainColor px-4 py-1 disabled:opacity-70"
-                disabled={isLoading}
-              >
-                {isLoading ? "Opening..." : "Open it!"}
-              </button>
+              {gold === 0 ? (
+                <button
+                  onClick={handleOpenTreasure}
+                  className="rounded-lg bg-mainColor px-4 py-1 disabled:opacity-70"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Opening..." : "Open it!"}
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setStep(1);
+                  }}
+                  className="rounded-lg bg-mainColor px-4 py-1 disabled:opacity-70"
+                  disabled={isLoading}
+                >
+                  Yayyy!
+                </button>
+              )}
             </div>
           </div>
         )}
 
         {step === 1 && (
-          <div className="flex w-3/4 flex-col items-center justify-around rounded-lg bg-[#222222] px-6 py-10 text-white">
+          <div className="flex w-3/4 flex-col items-center justify-around rounded-lg  px-6 py-10 text-white">
             <h1 className="text-white text-2xl">Play Again?</h1>
             <div className="w-full flex justify-around mt-5">
               <button
