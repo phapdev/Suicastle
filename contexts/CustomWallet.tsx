@@ -195,6 +195,7 @@ export default function CustomWalletProvider({
     }
     const txBlock = Transaction.from(bytes);
     return signTransactionBlock({
+      // @ts-ignore
       transaction: txBlock,
       chain: `sui:${clientConfig.SUI_NETWORK_NAME}`,
     }).then((resp) => resp.signature);
@@ -216,6 +217,7 @@ export default function CustomWalletProvider({
         // Sponsorship will happen in the back-end
         console.log("Sponsorship in the back-end...");
         const txBytes = await tx.build({
+          // @ts-ignore
           client: suiClient,
           onlyTransactionKind: true,
         });
@@ -245,8 +247,11 @@ export default function CustomWalletProvider({
         // Sponsorship can happen in the front-end
         console.log("Sponsorship in the front-end...");
         const response = await enokiFlow.sponsorAndExecuteTransaction({
+          // @ts-ignore
           network: clientConfig.SUI_NETWORK_NAME,
+          // @ts-ignore
           transaction: tx,
+          // @ts-ignore
           client: suiClient,
         });
         digest = response.digest;
@@ -272,8 +277,11 @@ export default function CustomWalletProvider({
     if (!isConnected) {
       return;
     }
+    // @ts-ignore
     tx.setSender(address!);
-    const txBytes = await tx.build({ client: suiClient });
+    const txBytes = await tx.build({ 
+      // @ts-ignore
+      client: suiClient });
     const signature = await signTransaction(txBytes);
     return suiClient.executeTransactionBlock({
       transactionBlock: txBytes,
