@@ -37,6 +37,7 @@ export const usePlayer = () => {
           result = data.data as SuiObjectData;
     }
 
+    console.log(result);
     return result;
   };
 
@@ -45,6 +46,8 @@ export const usePlayer = () => {
   ): Promise<SuiTransactionBlockResponse> => {
     const txb = new Transaction();
     const functionName = "create_account";
+
+    console.log(username, SUI_CLOCK_OBJECT_ID, clientConfig.GAMESTATE_ID);
 
     txb.moveCall({
       arguments: [
@@ -58,13 +61,18 @@ export const usePlayer = () => {
     return await callContract(txb);
   };
 
-  const getDashboardInfor = async (): Promise<SuiTransactionBlockResponse> => {
+  const getDashboardInfor = async (
+    player_id: string
+  ): Promise<SuiTransactionBlockResponse> => {
     const txb = new Transaction();
     const functionName = "get_top_players_by_points";
+
+    console.log(player_id, SUI_CLOCK_OBJECT_ID);
 
     txb.moveCall({
       arguments: [
         txb.object(clientConfig.GAMESTATE_ID),
+        txb.object(player_id),
         txb.object(SUI_CLOCK_OBJECT_ID),
       ],
       target: `${clientConfig.PACKAGE_ID}::sui_castle::${functionName}`,

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Modal, Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import { LeaderBoardInfo } from "../../../types/types";
 import { usePlayer } from "@/hooks/usePlayer";
 import clsx from "clsx";
+import { LeaderBoardEvent } from "@/types/Events";
+import { AuthenticationContext } from "@/contexts/Authentication";
 
 interface LeaderboardModalProps {
   open: boolean;
@@ -15,22 +16,30 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
   handleClose,
 }) => {
   const { getDashboardInfor } = usePlayer();
-  const [leaderboard, setLeaderboard] = useState<LeaderBoardInfo[] | null>(
+  const [leaderboard, setLeaderboard] = useState<LeaderBoardEvent[] | null>(
     null
   );
+  const { playerInfor } = useContext(AuthenticationContext);
 
   useEffect(() => {
-    const getLeaderboard = async () => {
-      const data = await getDashboardInfor();
+    if (playerInfor.id.id === "") return;
 
-      console.log(data);
-      // if (data) {
-      //   setLeaderboard(data.events);
-      // }
+    const getLeaderboard = async () => {
+      const data = await getDashboardInfor(playerInfor.id.id);
+
+      if (!data.events) {
+        setLeaderboard([]);
+        return;
+      }
+      const leaderboardData = data.events.map((e) => {
+        return e.parsedJson as LeaderBoardEvent;
+      });
+
+      setLeaderboard(leaderboardData);
     };
 
     getLeaderboard();
-  }, []);
+  }, [playerInfor]);
 
   return (
     <Modal
