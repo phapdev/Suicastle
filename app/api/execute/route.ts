@@ -11,16 +11,13 @@ const ExecuteSchema = z.object({
 export const POST = async (request: NextRequest) => {
   try {
     const body = await request.json();
-    
+
     if (!body || !body.digest || !body.signature) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
-
-    console.log('Request body:', body);
-
     const { digest, signature }: ExecuteSponsoredTransactionApiInput = body;
 
     return enokiClient
@@ -48,7 +45,7 @@ export const POST = async (request: NextRequest) => {
         );
       });
   } catch (error) {
-    console.error('Execute error:', error);
+    console.error("Execute error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
