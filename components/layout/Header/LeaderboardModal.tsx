@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Modal, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { usePlayer } from "@/hooks/usePlayer";
 import clsx from "clsx";
 import { LeaderBoardEvent } from "@/types/Events";
+import { AuthenticationContext } from "@/contexts/Authentication";
 
 interface LeaderboardModalProps {
   open: boolean;
@@ -18,12 +19,14 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
   const [leaderboard, setLeaderboard] = useState<LeaderBoardEvent[] | null>(
     null
   );
+  const { playerInfor } = useContext(AuthenticationContext);
 
   useEffect(() => {
-    const getLeaderboard = async () => {
-      const data = await getDashboardInfor();
+    if (playerInfor.id.id === "") return;
 
-      console.log(data);
+    const getLeaderboard = async () => {
+      const data = await getDashboardInfor(playerInfor.id.id);
+
       if (!data.events) {
         setLeaderboard([]);
         return;
@@ -36,7 +39,7 @@ const LeaderboardModal: React.FC<LeaderboardModalProps> = ({
     };
 
     getLeaderboard();
-  }, []);
+  }, [playerInfor]);
 
   return (
     <Modal

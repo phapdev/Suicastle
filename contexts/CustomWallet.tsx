@@ -4,8 +4,18 @@ import {
   SuiTransactionBlockResponse,
   SuiTransactionBlockResponseOptions,
 } from "@mysten/sui/client";
-import { useCurrentAccount, useCurrentWallet, useDisconnectWallet, useSignTransaction, useSuiClient } from "@mysten/dapp-kit";
-import { useEnokiFlow, useZkLogin, useZkLoginSession } from "@mysten/enoki/react";
+import {
+  useCurrentAccount,
+  useCurrentWallet,
+  useDisconnectWallet,
+  useSignTransaction,
+  useSuiClient,
+} from "@mysten/dapp-kit";
+import {
+  useEnokiFlow,
+  useZkLogin,
+  useZkLoginSession,
+} from "@mysten/enoki/react";
 import clientConfig from "@/config/clientConfig";
 import { useRouter } from "next/navigation";
 import { SponsorTxRequestBody } from "@/types/SponsorTx";
@@ -24,7 +34,6 @@ export interface ExecuteSponsoredTransactionApiInput {
   digest: string;
   signature: string;
 }
-
 
 interface SponsorAndExecuteTransactionBlockProps {
   tx: Transaction;
@@ -75,7 +84,11 @@ export const CustomWalletContext = createContext<CustomWalletContextProps>({
   redirectToAuthUrl: () => {},
 });
 
-export default function CustomWalletProvider({children}: {children: React.ReactNode}) {
+export default function CustomWalletProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const suiClient = useSuiClient();
   const router = useRouter();
   const { address: enokiAddress } = useZkLogin();
@@ -97,7 +110,7 @@ export default function CustomWalletProvider({children}: {children: React.ReactN
       address: enokiAddress || currentAccount?.address,
       logout: () => {
         if (isUsingEnoki) {
-          enokiFlow.logout();     
+          enokiFlow.logout();
         } else {
           disconnect();
         }
@@ -113,14 +126,14 @@ export default function CustomWalletProvider({children}: {children: React.ReactN
   ]);
 
   useEffect(() => {
-    console.log('isWalletConnected', isWalletConnected)
-    console.log('isConnected', isConnected)
-    console.log('zkLoginSession', zkLoginSession)
+    console.log("isWalletConnected", isWalletConnected);
+    console.log("isConnected", isConnected);
+    console.log("zkLoginSession", zkLoginSession);
     if (isConnected && zkLoginSession && zkLoginSession.jwt) {
       const token = zkLoginSession.jwt;
       const decoded = jwtDecode(token);
 
-      console.log(decoded)
+      console.log(decoded);
 
       setEmailAddress((decoded as any).email);
 
@@ -133,7 +146,7 @@ export default function CustomWalletProvider({children}: {children: React.ReactN
             : "anonymous",
         email: (decoded as any).email,
         picture: (decoded as any).picture,
-      });  
+      });
     }
   }, [isConnected, isWalletConnected, handleLoginAs, zkLoginSession]);
 
@@ -160,7 +173,7 @@ export default function CustomWalletProvider({children}: {children: React.ReactN
         clientId: clientConfig.GOOGLE_CLIENT_ID,
         redirectUrl: customRedirectUri,
         extraParams: {
-          scope: ["openid", "email", "profile",],
+          scope: ["openid", "email", "profile"],
         },
       })
       .then((url) => {
@@ -206,7 +219,7 @@ export default function CustomWalletProvider({children}: {children: React.ReactN
           client: suiClient,
           onlyTransactionKind: true,
         });
-        console.log('address', address)
+        console.log("address", address);
         const sponsorTxBody: SponsorTxRequestBody = {
           network,
           txBytes: toB64(txBytes),
@@ -269,8 +282,7 @@ export default function CustomWalletProvider({children}: {children: React.ReactN
       options,
     });
   };
-  
-  
+
   return (
     <CustomWalletContext.Provider
       value={{
