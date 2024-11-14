@@ -2,7 +2,7 @@
 
 import { AuthenticationProvider } from "@/contexts/Authentication";
 import { ChildrenProps } from "@/types/ChildrenProps";
-import React from "react";
+import React, { useEffect } from "react";
 import { EnokiFlowProvider } from "@mysten/enoki/react";
 import {
   createNetworkConfig,
