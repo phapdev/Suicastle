@@ -4,10 +4,12 @@ import { useSuiClient } from "@mysten/dapp-kit";
 import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
+import { useAlert } from "@/contexts/AlertProvider";
 
 export const useContract = () => {
   const { sponsorAndExecuteTransactionBlock, address } = useCustomWallet();
   const suiClient = useSuiClient();
+  const { setAlert } = useAlert();
 
   const callContract = async (
     txb: Transaction
@@ -27,6 +29,20 @@ export const useContract = () => {
     })
       .then((resp) => {
         console.log(resp);
+        const alertContent = (
+          <>
+            Success Transaction:{" "}
+            <a
+              href={`https://testnet.suivision.xyz/txblock/${resp.digest}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              {resp.digest}
+            </a>
+          </>
+        );
+        setAlert(alertContent, "success");
         return resp;
       })
       .catch((err) => {
