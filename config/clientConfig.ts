@@ -25,7 +25,9 @@ const clientConfig = clientConfigSchema.parse({
     | "mainnet"
     | "testnet",
   ENOKI_API_KEY: process.env.NEXT_PUBLIC_ENOKI_API_KEY!,
-  GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+  GOOGLE_CLIENT_ID: typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent)
+    ? process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID_IOS!
+    : process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
   PACKAGE_ID: process.env.NEXT_PUBLIC_PACKAGE_ID!,
   GAMESTATE_ID: process.env.NEXT_PUBLIC_GAMESTATE_ID!,
 });
